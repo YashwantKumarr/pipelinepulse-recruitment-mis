@@ -1,0 +1,5 @@
+[
+  {"file": "candidate_a.txt", "display_name": "Sample Candidate A", "email": "candidate.a@example.com", "source": "referral"},
+  {"file": "candidate_b.md", "display_name": "Sample Candidate B", "email": "candidate.b@example.com", "source": "job_board"},
+  {"file": "candidate_c.txt", "display_name": "Sample Candidate C", "email": "candidate.c@example.com", "source": "career_page"}
+]

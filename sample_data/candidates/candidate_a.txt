@@ -1,0 +1,6 @@
+Sample Candidate A (fictional)
+Data Engineer, 3 years of experience
+
+Built ETL pipelines in Python for nightly sales loads.
+Wrote SQL queries against PostgreSQL and maintained REST APIs with FastAPI.
+Monitored data quality checks and documented pipeline runbooks.

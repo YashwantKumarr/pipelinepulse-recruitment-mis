@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Data Engineer (Sample)",
+    "description": "Synthetic sample requisition for demonstration.",
+    "requirements": ["Python", "SQL", "ETL pipelines", "PostgreSQL", "REST APIs", "Airflow"],
+    "location": "Remote"
+  },
+  {
+    "title": "Frontend Developer (Sample)",
+    "description": "Synthetic sample requisition for demonstration.",
+    "requirements": ["JavaScript", "HTML", "CSS", "Accessibility", "React", "Git"],
+    "location": "Remote"
+  }
+]

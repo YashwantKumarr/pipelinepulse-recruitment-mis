@@ -1,0 +1,41 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install pinned dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Record versions
+        run: python --version && python -m pip freeze | grep -iE "^(fastapi|pydantic|sqlalchemy|pymupdf|python-docx|httpx|pytest|ruff)=="
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Format check
+        run: ruff format --check .
+
+      - name: Test with coverage
+        # Uses only synthetic fixtures and mocked providers. No paid AI credentials or real data.
+        env:
+          APP_ENV: test
+          AI_PROVIDER: rules
+          ENABLE_N8N_WEBHOOKS: "false"
+        run: python -m pytest -q --cov=app --cov-report=term-missing

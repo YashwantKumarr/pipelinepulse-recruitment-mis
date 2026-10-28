@@ -1,0 +1,35 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Local databases and private data
+*.db
+*.sqlite
+*.sqlite3
+data/
+uploads/
+*.pdf.local
+
+# Python and tooling
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Logs and generated output
+*.log
+exports/
+reports/generated/
+scripts/_unsupported_probe.exe
+
+# Editor and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TalentFlow AI</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="app-header">
+    <h1>TalentFlow AI</h1>
+    <p class="tagline">Recruiter workspace. Synthetic data only. Assessments are decision support; recruiters make all pipeline decisions.</p>
+  </header>
+
+  <nav aria-label="Primary">
+    <button type="button" data-view="dashboard" aria-current="page">Dashboard</button>
+    <button type="button" data-view="jobs">Jobs</button>
+    <button type="button" data-view="candidates">Candidates</button>
+    <button type="button" data-view="interviews">Interviews</button>
+    <button type="button" data-view="reports">Reports</button>
+  </nav>
+
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+  <div id="alert" class="alert" role="alert" hidden></div>
+
+  <main id="main" tabindex="-1">
+    <!-- Dashboard -->
+    <section id="view-dashboard" class="view" aria-labelledby="dashboard-heading">
+      <h2 id="dashboard-heading">Dashboard</h2>
+      <div class="grid">
+        <div class="card" id="funnel-card"><h3>Pipeline stages</h3><div id="funnel-table"></div></div>
+        <div class="card"><h3>Sources</h3><div id="sources-table"></div></div>
+        <div class="card"><h3>Jobs and interviews</h3><div id="summary-list"></div></div>
+        <div class="card"><h3>Overdue client feedback</h3><div id="overdue-list"></div></div>
+      </div>
+    </section>
+
+    <!-- Jobs -->
+    <section id="view-jobs" class="view" aria-labelledby="jobs-heading" hidden>
+      <h2 id="jobs-heading">Job requisitions</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>New requisition</h3>
+          <form id="job-form" novalidate>
+            <label>Title <input name="title" required maxlength="200"></label>
+            <label>Location <input name="location" maxlength="120"></label>
+            <label>Description <textarea name="description" rows="3" maxlength="5000"></textarea></label>
+            <label>Requirements (one per line) <textarea name="requirements" rows="6" required></textarea></label>
+            <div class="row">
+              <label>Min years <input name="min_years" type="number" min="0" max="60"></label>
+              <label>Max years <input name="max_years" type="number" min="0" max="60"></label>
+            </div>
+            <button type="submit">Create requisition</button>
+          </form>
+        </div>
+        <div class="card wide"><h3>Requisitions</h3><div id="jobs-table"></div></div>
+      </div>
+    </section>
+
+    <!-- Candidates -->
+    <section id="view-candidates" class="view" aria-labelledby="candidates-heading" hidden>
+      <h2 id="candidates-heading">Candidates</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Upload resume</h3>
+          <form id="upload-form" novalidate>
+            <label>Resume file (PDF, DOCX, TXT or Markdown, max 5 MB)
+              <input name="file" type="file" accept=".pdf,.docx,.txt,.md" required>
+            </label>
+            <label>Display name <input name="display_name" required maxlength="200"></label>
+            <label>Email (optional) <input name="email" type="email" maxlength="254"></label>
+            <label>Source <input name="source" value="upload" maxlength="50"></label>
+            <button type="submit">Upload and parse</button>
+          </form>
+        </div>
+        <div class="card wide">
+          <h3>Find candidates</h3>
+          <form id="search-form" class="row" role="search">
+            <label>Name contains <input name="q" maxlength="100"></label>
+            <label>Stage
+              <select name="stage"><option value="">All stages</option></select>
+            </label>
+            <button type="submit">Search</button>
+          </form>
+          <div id="candidates-table"></div>
+        </div>
+        <div class="card wide" id="candidate-detail" hidden aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Interviews -->
+    <section id="view-interviews" class="view" aria-labelledby="interviews-heading" hidden>
+      <h2 id="interviews-heading">Interviews</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Schedule interview</h3>
+          <form id="interview-form" novalidate>
+            <label>Candidate <select name="candidate_id" required></select></label>
+            <label>Job (optional) <select name="job_id"><option value="">None</option></select></label>
+            <label>Stage
+              <select name="stage" required>
+                <option value="Screening">Screening</option>
+                <option value="Technical">Technical</option>
+                <option value="Client">Client</option>
+                <option value="HR">HR</option>
+                <option value="Final">Final</option>
+              </select>
+            </label>
+            <label>Date and time (your local time) <input name="scheduled_at" type="datetime-local" required></label>
+            <label>Timezone label <input name="timezone" required maxlength="64"></label>
+            <label>Notes <textarea name="notes" rows="2" maxlength="2000"></textarea></label>
+            <button type="submit">Schedule</button>
+          </form>
+        </div>
+        <div class="card wide"><h3>Interviews</h3><div id="interviews-table"></div></div>
+      </div>
+    </section>
+
+    <!-- Reports -->
+    <section id="view-reports" class="view" aria-labelledby="reports-heading" hidden>
+      <h2 id="reports-heading">Reports and CSV exports</h2>
+      <div class="card">
+        <p>Exports exclude email addresses and resume text. Formula-like cells are neutralised.</p>
+        <ul class="export-list">
+          <li><a href="/api/reports/export.csv?dataset=candidates" download>Download candidates CSV</a></li>
+          <li><a href="/api/reports/export.csv?dataset=pipeline" download>Download pipeline history CSV</a></li>
+          <li><a href="/api/reports/export.csv?dataset=interviews" download>Download interviews CSV</a></li>
+          <li><a href="/api/reports/export.csv?dataset=funnel" download>Download funnel CSV</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
